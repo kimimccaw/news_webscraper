@@ -3,21 +3,25 @@ import sys
 from datetime import date
 from bs4 import BeautifulSoup
 
+def extract_url(args):
+    url = ''.join(args)
+    return url
 
-def web_scrapping():
-    args = sys.argv[1:] 
-    for i in args:
-        r = requests.get(i)
-    
-    soup = BeautifulSoup(r.text, 'html.parser')
+def scrape_html_from_url(url):
+    html = requests.get(url)
+    soup = BeautifulSoup(html.text , 'html.parser')
+    return soup
 
+
+if __name__ == "__main__":
+    url = extract_url(sys.argv[1:]) 
+    html = scrape_html_from_url(url)
 
     #title of webpage
-    title = soup.title
-    title_text = title.get_text()
-    print(title_text)
+    title_text = html.title.get_text()
+    print("Title: " , title_text)
 
-    paragraph = soup.find_all('p')
+    paragraph = html.find_all('p')
 
     for i in paragraph:
         print(i.get_text())
@@ -44,5 +48,3 @@ def web_scrapping():
 
 
 
-if __name__ == "__main__":
-    web_scrapping()

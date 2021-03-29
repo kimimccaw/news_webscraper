@@ -12,6 +12,21 @@ def scrape_html_from_url(url):
     soup = BeautifulSoup(html.text , 'html.parser')
     return soup
 
+def write_news_in_txt(title_text,news):
+    filename = "News_" + str(date.today()) + ".txt"
+    
+    openF = open(filename, "w+")
+    openF.write("******************\n")
+    openF.writelines(str(date.today()))
+    openF.write("\n******************\n\n\n")
+    openF.write("Title: ")
+    openF.write(title_text)
+    openF.write("\n\n")
+    for i in news:
+        openF.write(i.get_text())
+        openF.write("\n")
+
+
 
 if __name__ == "__main__":
     url = extract_url(sys.argv[1:]) 
@@ -31,17 +46,7 @@ if __name__ == "__main__":
 
 
     if write_in_txt.upper() == 'yes'.upper():
-        openF = open(filename, "w+")
-        openF.write("******************\n")
-        openF.writelines(str(date.today()))
-        openF.write("\n******************\n\n\n")
-        openF.write("Title: ")
-        openF.write(title_text)
-        openF.write("\n\n")
-        for i in paragraph:
-            openF.write(i.get_text())
-            openF.write("\n")
-
+        write_news_in_txt(title_text,paragraph)
         print("Your news has been saved in", filename)
     else:
         print("Your news hasn't been saved")
